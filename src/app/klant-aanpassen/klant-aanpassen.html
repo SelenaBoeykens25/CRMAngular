@@ -1,1 +1,154 @@
-<p>klant-aanpassen works!</p>
+<div class="container py-3">
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h2>{{ id() !== 0 ? 'Klant aanpassen' : 'Nieuwe klant' }}</h2>
+		<button class="btn btn-secondary" (click)="gaTerug()">
+			<i class="bi bi-arrow-left"></i> Terug
+		</button>
+	</div>
+
+	<form (ngSubmit)="opslaan()" #f="ngForm">
+		@if (error()) {
+			<div class="alert alert-danger">{{ error() }}</div>
+		}
+
+		<div class="row mb-3">
+			<div class="col-md-6">
+				<label class="form-label">Aanspreking</label>
+				<select class="form-select" name="aanspreking" title="Aanspreking"
+					[ngModel]="klant().aanspreking"
+					(ngModelChange)="klant.update(k => ({...k, aanspreking: $event}))">
+					<option value="">- Selecteer aanspreking -</option>
+					<option value="dhr.">dhr.</option>
+					<option value="mevr.">mevr.</option>
+					<option value="x">x</option>
+				</select>
+			</div>
+			<div class="col-md-6">
+				<label class="form-label">Voornaam</label>
+				<input type="text" class="form-control" name="voornaam" title="Voornaam"
+					[ngModel]="klant().voornaam"
+					(ngModelChange)="klant.update(k => ({...k, voornaam: $event}))" required />
+			</div>
+		</div>
+		<div class="row mb-3">
+			<div class="col-md-6">
+				<label class="form-label">Naam</label>
+				<input type="text" class="form-control" name="naam" title="Naam"
+					[ngModel]="klant().naam"
+					(ngModelChange)="klant.update(k => ({...k, naam: $event}))" required />
+			</div>
+			<div class="col-md-6">
+				<label class="form-label">Geboortedatum</label>
+				<input type="date" class="form-control" name="geboortedatum" title="Geboortedatum"
+					[ngModel]="klant().geboorteDatum"
+					(ngModelChange)="klant.update(k => ({...k, geboorteDatum: $event}))" />
+			</div>
+		</div>
+		<div class="row mb-3">
+			<div class="col-md-6">
+				<label class="form-label">E-mail</label>
+				<input type="email" class="form-control" name="email" title="E-mail"
+					[ngModel]="klant().emailAdres"
+					(ngModelChange)="klant.update(k => ({...k, emailAdres: $event}))" required />
+			</div>
+			<div class="col-md-6">
+				<label class="form-label">Telefoon</label>
+				<input type="text" class="form-control" name="telefoon" title="Telefoon"
+					[ngModel]="klant().telefoonNummer"
+					(ngModelChange)="klant.update(k => ({...k, telefoonNummer: $event}))" />
+			</div>
+		</div>
+
+		@if (!metAdres()) {
+			<button type="button" class="btn btn-outline-secondary mb-3" (click)="voegAdresToe()">
+				<i class="bi bi-house-add"></i> Adres toevoegen
+			</button>
+		} @else {
+			<fieldset class="border rounded p-3 mb-3">
+				<legend class="float-none w-auto px-2 fs-6">Adres</legend>
+				<div class="row mb-2">
+					<div class="col-md-8">
+						<label class="form-label">Straat</label>
+						<input type="text" class="form-control" name="straat" title="Straat"
+							[ngModel]="klant().adres!.straat"
+							(ngModelChange)="updateAdresField('straat', $event)" />
+					</div>
+					<div class="col-md-2">
+						<label class="form-label">Huisnummer</label>
+						<input type="text" class="form-control" name="huisnummer" title="Huisnummer"
+							[ngModel]="klant().adres!.huisnummer"
+							(ngModelChange)="updateAdresField('huisnummer', $event)" />
+					</div>
+					<div class="col-md-2">
+						<label class="form-label">Busnummer</label>
+						<input type="text" class="form-control" name="busnummer" title="Busnummer"
+							[ngModel]="klant().adres!.busnummer"
+							(ngModelChange)="updateAdresField('busnummer', $event)" />
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						<label class="form-label">Postcode</label>
+						<input type="text" class="form-control" name="postcode" title="Postcode"
+							[ngModel]="klant().adres!.postcode"
+							(ngModelChange)="updateAdresField('postcode', $event)" />
+					</div>
+					<div class="col-md-4">
+						<label class="form-label">Gemeente</label>
+						<input type="text" class="form-control" name="gemeente" title="Gemeente"
+							[ngModel]="klant().adres!.gemeente"
+							(ngModelChange)="updateAdresField('gemeente', $event)" />
+					</div>
+					<div class="col-md-4">
+						<label class="form-label">Stad</label>
+						<input type="text" class="form-control" name="stad" title="Stad"
+							[ngModel]="klant().adres!.stad"
+							(ngModelChange)="updateAdresField('stad', $event)" />
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-6">
+						<label class="form-label">Provincie</label>
+						<input type="text" class="form-control" name="provincie" title="Provincie"
+							[ngModel]="klant().adres!.provincie"
+							(ngModelChange)="updateAdresField('provincie', $event)" />
+					</div>
+				</div>
+				<div class="mb-2">
+					@if (!nieuwLand()) {
+						<label class="form-label">Land</label>
+						<div class="d-flex gap-2">
+							<select class="form-select" name="landcode" title="Land"
+								[ngModel]="klant().adres!.landcode"
+								(ngModelChange)="updateAdresField('landcode', $event)">
+								@for (land of mogelijkeLanden(); track land.landCode) {
+									  <option [value]="land.landCode">{{ land.landNaam }}</option>
+								}
+							</select>
+							<button type="button" class="btn btn-outline-secondary" (click)="nieuwLandToevoegen()">
+								<i class="bi bi-plus-circle"></i> Nieuw land
+							</button>
+						</div>
+					} @else {
+						<div class="row">
+							<div class="col-md-4">
+								<label class="form-label">Landcode</label>
+								<input type="text" class="form-control" name="landCode" title="Landcode"
+									[ngModel]="klant().adres!.land?.landCode"
+									(ngModelChange)="klant.update(k => ({...k, adres: {...k.adres!, land: {...k.adres!.land!, landCode: $event}}}))" />
+							</div>
+							<div class="col-md-8">
+								<label class="form-label">Landnaam</label>
+								<input type="text" class="form-control" name="landNaam" title="Landnaam"
+									  [ngModel]="klant().adres!.land?.landNaam"
+									  (ngModelChange)="klant.update(k => ({...k, adres: {...k.adres!, land: {...k.adres!.land!, landNaam: $event}}}))" />
+							</div>
+						</div>
+					}
+				</div>
+			</fieldset>
+		}
+
+		<button type="submit" class="btn btn-success" [disabled]="f.invalid">Opslaan</button>
+	</form>
+</div>

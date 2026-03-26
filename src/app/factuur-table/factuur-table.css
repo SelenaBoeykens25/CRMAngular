@@ -1,0 +1,41 @@
+.openstaand {
+  background-color: aquamarine;
+  color: white;
+}
+
+.openstaand option {
+  background-color: white;
+  color: black;
+}
+
+.inbehandeling {
+  background-color: orange;
+  color: white;
+}
+
+.inbehandeling option {
+  background-color: white;
+  color: black;
+}
+
+.betaald {
+  background-color: green;
+  color: white;
+}
+
+.betaald option {
+  background-color: white;
+  color: black;
+}
+
+.mislukt,
+.geannuleerd {
+  background-color: red;
+  color: white;
+}
+
+.mislukt option,
+.geannuleerd option {
+  background-color: white;
+  color: black;
+}

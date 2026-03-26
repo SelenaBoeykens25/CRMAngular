@@ -1,1 +1,26 @@
-<p>klanten works!</p>
+<div class="container-fluid py-3">
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h2>Klanten</h2>
+		<a routerLink="/klanten/aanpassen" class="btn btn-success">
+			<i class="bi bi-person-plus"></i> Nieuwe Klant
+		</a>
+	</div>
+
+	@if (isLoading()) {
+		<div class="text-center py-5"><div class="spinner-border" role="status"></div></div>
+	} @else {
+		<app-klant-filter
+			[klantenLijst]="klantenLijst()"
+			[initialQueryParams]="queryParams()"
+			(filterChanged)="handleFilterChanged($event)">
+		</app-klant-filter>
+
+		<p class="text-muted small">{{ filterLijst().length }} klant(en) gevonden</p>
+
+		@if (filterLijst().length === 0) {
+			<div class="alert alert-info">Geen klanten gevonden.</div>
+		} @else {
+			<app-klanten-table [filterLijst]="filterLijst()"></app-klanten-table>
+		}
+	}
+</div>

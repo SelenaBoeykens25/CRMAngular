@@ -1,0 +1,44 @@
+<div class="container py-4 nieuw-account-container">
+  <h2 class="mb-4">Nieuw account aanmaken</h2>
+
+  @if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+  }
+
+  <form (ngSubmit)="opslaan()" #f="ngForm">
+    <div class="mb-3">
+      <label class="form-label">E-mailadres</label>
+      <input type="email" class="form-control" name="email"
+        title="E-mailadres"
+        [ngModel]="account().email"
+        (ngModelChange)="account.update(a => ({...a, email: $event}))" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Wachtwoord</label>
+      <input type="password" class="form-control" name="wachtwoord"
+        title="Wachtwoord"
+        [ngModel]="account().wachtwoord"
+        (ngModelChange)="account.update(a => ({...a, wachtwoord: $event}))" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Bevestig wachtwoord</label>
+      <input type="password" class="form-control" name="bevestig"
+        title="Bevestig wachtwoord"
+        [ngModel]="bevestigWachtwoord()" (ngModelChange)="bevestigWachtwoord.set($event)" required />
+    </div>
+    @if (isOwner()) {
+      <div class="mb-3">
+        <label class="form-label">Rol</label>
+        <select class="form-select" name="securityLevel"
+          title="Rol"
+          [ngModel]="account().securityLevel"
+          (ngModelChange)="account.update(a => ({...a, securityLevel: $event}))">
+          <option value="User">Gebruiker</option>
+          <option value="Admin">Admin</option>
+          <option value="Owner">Eigenaar</option>
+        </select>
+      </div>
+    }
+    <button type="submit" class="btn btn-success" [disabled]="f.invalid">Account aanmaken</button>
+  </form>
+</div>

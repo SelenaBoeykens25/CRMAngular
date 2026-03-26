@@ -1,0 +1,18 @@
+@if (data() === null) {
+  <p>Laden...</p>
+} @else if (data()!.length === 0) {
+  <p class="text-primary">Geen facturen gevonden.</p>
+} @else {
+  <div class="betaalstatus-overzicht">
+    @for (item of data()!; track item.status) {
+      <div class="status-item">
+        <div class="status-label">{{ getLabel(item.status) }}</div>
+        <div class="status-aantal">
+          <a [routerLink]="['/facturen']" [queryParams]="{ filterOp: 'Status', status: item.status }">
+            {{ item.aantal }}
+          </a>
+        </div>
+      </div>
+    }
+  </div>
+}

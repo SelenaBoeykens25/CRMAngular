@@ -1,1 +1,123 @@
-<p>factuur-aanpassen works!</p>
+<div class="container py-3">
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h2>{{ id() !== 0 ? 'Factuur aanpassen' : 'Nieuwe factuur' }}</h2>
+		<button class="btn btn-secondary" (click)="gaTerug()">
+			<i class="bi bi-arrow-left"></i> Terug
+		</button>
+	</div>
+
+	<form (ngSubmit)="opslaan()" #f="ngForm">
+		@if (error()) {
+			<div class="alert alert-danger">{{ error() }}</div>
+		}
+
+		<div class="row mb-3">
+			<div class="col-md-6">
+				<label class="form-label">Klant</label>
+				<div class="position-relative">
+					<input type="text" class="form-control"
+						title="Klant"
+						[value]="dropdownFilter() || selectedKlantNaam()"
+						(input)="onDropdownFilterChange($any($event.target).value)"
+						(focus)="showDropdownMenu()"
+						(blur)="hideDropdownDelayed()"
+						placeholder="Zoek klant..." />
+					@if (showDropdown() && gefilterdeKlanten().length > 0) {
+						<div class="list-group position-absolute w-100 dropdown-klant-lijst">
+							@for (klant of gefilterdeKlanten(); track klant.id) {
+								<button type="button" class="list-group-item list-group-item-action text-start" (mousedown)="selectKlant(klant)">{{ klant.voornaam }} {{ klant.naam }}</button>
+							}
+						</div>
+					}
+				</div>
+			</div>
+			<div class="col-md-3">
+				<label class="form-label">Factuurdatum</label>
+				<input type="date" class="form-control" name="factuurDatum"
+					title="Factuurdatum"
+					[ngModel]="factuur().factuurDatum"
+					(ngModelChange)="factuur.update(f => ({...f, factuurDatum: $event}))" required />
+			</div>
+			<div class="col-md-3">
+				<label class="form-label">Te betalen voor</label>
+				<input type="date" class="form-control" name="teBetalenVoor"
+					title="Te betalen voor"
+					[ngModel]="factuur().teBetalenVoor"
+					(ngModelChange)="factuur.update(f => ({...f, teBetalenVoor: $event}))" required />
+			</div>
+		</div>
+
+		<div class="mb-3">
+			<label class="form-label">Betaalstatus</label>
+			<select class="form-select" name="betaalStatus"
+				title="Betaalstatus"
+				[ngModel]="factuur().betaalStatus"
+				(ngModelChange)="factuur.update(f => ({...f, betaalStatus: $event}))">
+				@for (status of betaalStatusOpties; track status) {
+					<option [value]="status">{{ status }}</option>
+				}
+			</select>
+		</div>
+
+		<h5>Factuurlijnen</h5>
+		<table class="table table-bordered table-sm">
+			<thead class="table-light">
+				<tr>
+					<th>Omschrijving</th>
+					  <th class="col-netto">Netto (&euro;)</th>
+					  <th class="col-btw">BTW %</th>
+					  <th class="col-bruto">Bruto (&euro;)</th>
+					  <th class="col-acties"></th>
+				</tr>
+			</thead>
+			<tbody>
+				@for (lijn of factuur().factuurLijnen; track $index) {
+					<tr>
+						<td>
+							<input type="text" class="form-control form-control-sm"
+								title="Omschrijving"
+								[ngModel]="lijn.omschrijving" [name]="'omschrijving_' + $index"
+								(ngModelChange)="updateOmschrijving($index, $event)" />
+						</td>
+						<td>
+							<input type="number" class="form-control form-control-sm" step="0.01"
+								title="Netto prijs"
+								[ngModel]="lijn.nettoPrijs" [name]="'netto_' + $index"
+								(ngModelChange)="onNettoPrijsChanged($index, $event)" />
+						</td>
+						<td>
+							<select class="form-select form-select-sm"
+								title="BTW percentage"
+								[ngModel]="lijn.btwPercentage" [name]="'btw_' + $index"
+								(ngModelChange)="onBtwChanged($index, $event)">
+								@for (p of btwPercentages(); track p.id) {
+									<option [ngValue]="p.percentage">{{ p.percentage }}%</option>
+								}
+							</select>
+						</td>
+						<td>
+							<input type="number" class="form-control form-control-sm" step="0.01"
+								title="Bruto prijs"
+								[ngModel]="lijn.brutoPrijs" [name]="'bruto_' + $index"
+								(ngModelChange)="onBrutoPrijsChanged($index, $event)" />
+						</td>
+						<td>
+							<button type="button" class="btn btn-sm btn-outline-danger" title="Verwijder lijn" aria-label="Verwijder lijn" (click)="verwijderLijn(lijn)">
+								<i class="bi bi-trash"></i>
+							</button>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+		<button type="button" class="btn btn-outline-secondary mb-3" (click)="nieuweLijn()">
+			<i class="bi bi-plus-circle"></i> Lijn toevoegen
+		</button>
+
+		<div class="d-flex justify-content-between align-items-center">
+			<strong>Totaal: &euro;{{ factuur().prijs }}</strong>
+			<button type="submit" class="btn btn-success" [disabled]="f.invalid">Opslaan</button>
+		</div>
+	</form>
+</div>

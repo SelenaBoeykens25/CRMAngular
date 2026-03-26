@@ -1,3 +1,5 @@
+import type { Land } from './Land';
+
 export interface Adres {
     id: number;
     straat: string;
@@ -8,6 +10,7 @@ export interface Adres {
     stad: string;
     provincie: string;
     landcode: string;
+    land: Land | null;
 }
 
 export function createAdres(overrides: Partial<Adres> = {}): Adres {
@@ -21,6 +24,7 @@ export function createAdres(overrides: Partial<Adres> = {}): Adres {
         stad: '',
         provincie: '',
         landcode: '',
+        land: null,
         ...overrides,
     };
 }

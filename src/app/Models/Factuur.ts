@@ -2,6 +2,7 @@ import type { FactuurLijn } from './FactuurLijn';
 import type { Klant } from './Klant';
 
 export type BetaalStatus = 'Openstaand' | 'InBehandeling' | 'Betaald' | 'Mislukt' | 'Geannuleerd';
+export const BETAAL_STATUS_OPTIES: BetaalStatus[] = ['Openstaand', 'InBehandeling', 'Betaald', 'Mislukt', 'Geannuleerd'];
 
 export interface Factuur {
      id: number;

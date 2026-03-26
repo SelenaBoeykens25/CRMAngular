@@ -1,1 +1,26 @@
-<p>facturen works!</p>
+<div class="container-fluid py-3">
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h2>Facturen</h2>
+		<a routerLink="/facturen/aanpassen" class="btn btn-success">
+			<i class="bi bi-file-earmark-plus"></i> Nieuwe Factuur
+		</a>
+	</div>
+
+	@if (isLoading()) {
+		<div class="text-center py-5"><div class="spinner-border" role="status"></div></div>
+	} @else {
+		<app-factuur-filter
+			[factuurLijst]="factuurLijst()"
+			[initialQueryParams]="queryParams()"
+			(filterChanged)="handleFilterChanged($event)">
+		</app-factuur-filter>
+
+		<p class="text-muted small">{{ filterLijst().length }} factuur/facturen gevonden</p>
+
+		@if (filterLijst().length === 0) {
+			<div class="alert alert-info">Geen facturen gevonden.</div>
+		} @else {
+			<app-factuur-table [filterLijst]="filterLijst()"></app-factuur-table>
+		}
+	}
+</div>

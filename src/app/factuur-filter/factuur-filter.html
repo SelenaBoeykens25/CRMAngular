@@ -1,1 +1,73 @@
-<p>factuur-filter works!</p>
+<form (ngSubmit)="handleFilter()">
+  <div class="row g-2 align-items-end">
+    @if (filterOp === 'Klant') {
+      <div class="col-12 col-lg-6">
+        <input type="text" class="form-control" placeholder="Zoek klant..."
+               [(ngModel)]="filterText" name="filterText" />
+      </div>
+    } @else if (filterOp === 'Status') {
+      <div class="col-12 col-md-6 col-lg-4">
+        <select class="form-select" [(ngModel)]="filterStatus" name="filterStatus" title="Filter status">
+          @for (s of betaalStatusOpties; track s) {
+            <option [value]="s">{{ s }}</option>
+          }
+        </select>
+      </div>
+    } @else if (filterOp === 'Datum' || filterOp === 'TBV') {
+      <div class="col-12 col-md-4 col-lg-3">
+        <select class="form-select" [(ngModel)]="filterDatumSoort" name="filterDatumSoort" title="Filter datum soort">
+          <option value="Dag">Dag</option>
+          <option value="Maand">Maand</option>
+          <option value="Jaar">Jaar</option>
+        </select>
+      </div>
+      @if (filterDatumSoort === 'Dag') {
+        <div class="col-12 col-md-8 col-lg-4">
+          <input type="date" class="form-control" [(ngModel)]="filterDag" name="filterDag" title="Filter dag" />
+        </div>
+      }
+      @if (filterDatumSoort === 'Maand') {
+        <div class="col-6 col-md-4 col-lg-2">
+          <input type="number" class="form-control" placeholder="maand" min="1" max="12"
+                 [(ngModel)]="filterMaand" name="filterMaand" />
+        </div>
+      }
+      @if (filterDatumSoort === 'Maand' || filterDatumSoort === 'Jaar') {
+        <div class="col-6 col-md-4 col-lg-2">
+          <input type="number" class="form-control" placeholder="jaar"
+                 [(ngModel)]="filterJaar" name="filterJaar" />
+        </div>
+      }
+    } @else {
+      <div class="col-12 col-md-6 col-lg-4">
+        <input type="number" class="form-control" [placeholder]="filterOp.toLowerCase()" title="Filter waarde"
+               [(ngModel)]="filterNummer" name="filterNummer" />
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <select class="form-select" [(ngModel)]="vergelijkingsOperator" name="vergelijkingsOperator" title="Vergelijkingsoperator">
+          <option value="=">=</option>
+          <option value=">">&gt;</option>
+          <option value="<">&lt;</option>
+        </select>
+      </div>
+    }
+
+    <div class="col-12 col-md-6 col-lg-3">
+      <select class="form-select" [(ngModel)]="filterOp" name="filterOp" title="Filter op">
+        <option value="Nummer">Nummer</option>
+        <option value="Klant">Klant</option>
+        <option value="Datum">Datum</option>
+        <option value="TBV">Betalen Voor</option>
+        <option value="Aantal">Aantal Lijnen</option>
+        <option value="Prijs">Prijs</option>
+        <option value="Status">Betaalstatus</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-6 col-lg-2">
+      <button type="submit" class="btn btn-primary w-100">
+        <span class="bi bi-search"></span> Filter
+      </button>
+    </div>
+  </div>
+</form>
+

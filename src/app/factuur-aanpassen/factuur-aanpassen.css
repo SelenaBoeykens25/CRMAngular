@@ -1,0 +1,21 @@
+.dropdown-klant-lijst {
+	z-index: 1000;
+	max-height: 200px;
+	overflow-y: auto;
+}
+
+.col-netto {
+	width: 130px;
+}
+
+.col-btw {
+	width: 120px;
+}
+
+.col-bruto {
+	width: 130px;
+}
+
+.col-acties {
+	width: 50px;
+}

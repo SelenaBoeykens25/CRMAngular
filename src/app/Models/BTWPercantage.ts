@@ -1,6 +1,6 @@
 export interface BTWPercantage {
     id: number;
-    percantage: number;
+    percentage: number;
 }
 
 export function createBTWPercantage(
@@ -8,7 +8,7 @@ export function createBTWPercantage(
 ): BTWPercantage {
     return {
         id: 0,
-        percantage: 21,
+        percentage: 21,
         ...overrides,
     };
 }

@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+.confirm-card {
+  max-width: 450px;
+}

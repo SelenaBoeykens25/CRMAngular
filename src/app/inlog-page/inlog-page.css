@@ -1,0 +1,7 @@
+.min-vh-100 {
+  min-height: calc(100vh - 80px) !important;
+}
+
+.login-card {
+  width: 400px;
+}
