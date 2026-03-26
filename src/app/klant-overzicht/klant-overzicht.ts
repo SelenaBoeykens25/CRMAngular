@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { KlantenService } from '../Services/KlantenService';
 import { Klant } from '../Models/Klant';
 
 @Component({
   selector: 'app-klant-overzicht',
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, DecimalPipe],
   templateUrl: './klant-overzicht.html',
   styleUrl: './klant-overzicht.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

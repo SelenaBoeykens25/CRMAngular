@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { NgClass, DecimalPipe } from '@angular/common';
+import { DecimalPipe, DatePipe } from '@angular/common';
 import { FactuurService } from '../Services/FactuurService';
 import { Factuur } from '../Models/Factuur';
 
 @Component({
   selector: 'app-factuur-details',
-  imports: [RouterLink, NgClass, DecimalPipe],
+  imports: [RouterLink, DecimalPipe, DatePipe],
   templateUrl: './factuur-details.html',
   styleUrl: './factuur-details.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,10 +41,11 @@ export class FactuurDetails implements OnInit {
     window.print();
   }
 
-  protected getStatusClass(): string {
+  protected getStatusAlertClass(): string {
     switch (this.factuur()?.betaalStatus) {
       case 'Betaald': return 'alert-success';
       case 'Openstaand': return 'alert-warning';
+      case 'InBehandeling': return 'alert-warning';
       case 'Mislukt':
       case 'Geannuleerd': return 'alert-danger';
       default: return 'alert-secondary';

@@ -1,12 +1,12 @@
 <div class="container py-4">
-  <h1 class="mb-4">Dashboard</h1>
+  <h1 class="mb-4">Welkom bij CRM!</h1>
 
-  <div class="row mb-4">
+  <div class="row align-items-start mb-4 mt-4 g-3">
     <div class="col-md-4 mb-3">
       <div class="card h-100">
         <div class="card-body d-flex flex-column">
           <h5 class="card-title"><i class="bi bi-people"></i> Klanten</h5>
-          <p class="card-text">Beheer uw klantenbestand.</p>
+          <p class="card-text">Beheer uw klanten.</p>
           <a routerLink="/klanten" class="btn btn-primary mt-auto">Naar klanten</a>
         </div>
       </div>
@@ -15,15 +15,23 @@
       <div class="card h-100">
         <div class="card-body d-flex flex-column">
           <h5 class="card-title"><i class="bi bi-file-earmark-text"></i> Facturen</h5>
-          <p class="card-text">Beheer uw facturen en betalingen.</p>
+          <p class="card-text">Beheer uw facturen.</p>
           <a routerLink="/facturen" class="btn btn-primary mt-auto">Naar facturen</a>
         </div>
       </div>
     </div>
+    <div class="col-md-4 mb-3">
+      @if (factuurLijst().length > 0) {
+        <h4>Betalingsstatus overzicht</h4>
+        <app-betaal-status-overzicht [factuurLijst]="factuurLijst()"></app-betaal-status-overzicht>
+      } @else {
+        <div class="card h-100">
+          <div class="card-body d-flex align-items-center text-body-secondary">
+            Geen betalingsstatus beschikbaar.
+          </div>
+        </div>
+      }
+    </div>
   </div>
 
-  @if (factuurLijst().length > 0) {
-    <h4>Betalingsstatus overzicht</h4>
-    <app-betaal-status-overzicht [factuurLijst]="factuurLijst()"></app-betaal-status-overzicht>
-  }
 </div>

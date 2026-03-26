@@ -1,22 +1,44 @@
 <div class="container-fluid py-3">
-	<div class="d-flex justify-content-between align-items-center mb-3">
-		<h2>Klanten</h2>
-		<a routerLink="/klanten/aanpassen" class="btn btn-success">
-			<i class="bi bi-person-plus"></i> Nieuwe Klant
-		</a>
+	<div class="row align-items-start g-3 mb-3">
+		<div class="col-12 col-lg-4">
+			@if (!isLoading()) {
+				<app-klant-filter
+					[klantenLijst]="klantenLijst()"
+					[initialQueryParams]="queryParams()"
+					(filterChanged)="handleFilterChanged($event)">
+				</app-klant-filter>
+			}
+		</div>
+		<div class="col-12 col-lg-4 text-center">
+			<h2 class="mb-0">Klanten</h2>
+		</div>
+		<div class="col-12 col-lg-4 d-flex justify-content-start justify-content-lg-end">
+			<div class="d-flex align-items-center gap-2 flex-wrap justify-content-start justify-content-lg-end">
+				@if (!isLoading()) {
+					<span id="klantTotaal" class="me-1">
+	@if (klantenLijst().length == filterLijst().length)
+	{
+		<span class="me-1">{{ klantenLijst().length }}</span>
+	}
+	@else
+	{
+		<span class="me-1">{{ filterLijst().length }}/{{ klantenLijst().length }}</span>
+	}
+	<span>
+		{{ klantenLijst().length !== 1 ? 'Klanten ' : 'Klant ' }}
+	</span>
+</span>
+				}
+				<a routerLink="/klanten/aanpassen" class="btn btn-success">
+					<i class="bi bi-person-plus"></i> Nieuwe Klant
+				</a>
+			</div>
+		</div>
 	</div>
 
 	@if (isLoading()) {
 		<div class="text-center py-5"><div class="spinner-border" role="status"></div></div>
 	} @else {
-		<app-klant-filter
-			[klantenLijst]="klantenLijst()"
-			[initialQueryParams]="queryParams()"
-			(filterChanged)="handleFilterChanged($event)">
-		</app-klant-filter>
-
-		<p class="text-muted small">{{ filterLijst().length }} klant(en) gevonden</p>
-
 		@if (filterLijst().length === 0) {
 			<div class="alert alert-info">Geen klanten gevonden.</div>
 		} @else {

@@ -1,9 +1,20 @@
 <div class="container py-3">
-	<div class="d-flex justify-content-between align-items-center mb-3">
-		<h2>{{ id() !== 0 ? 'Klant aanpassen' : 'Nieuwe klant' }}</h2>
-		<button class="btn btn-secondary" (click)="gaTerug()">
-			<i class="bi bi-arrow-left"></i> Terug
-		</button>
+	<div class="row align-items-center g-3 mb-3">
+		<div class="col-12 col-lg-4 d-flex justify-content-start">
+			<button class="btn btn-secondary" (click)="gaTerug()">
+				<i class="bi bi-arrow-left"></i> Terug
+			</button>
+		</div>
+		<div class="col-12 col-lg-4 text-center">
+			<h2 class="mb-0">{{ id() !== 0 ? 'Klant aanpassen' : 'Nieuwe klant' }}</h2>
+		</div>
+		<div class="col-12 col-lg-4 d-flex justify-content-start justify-content-lg-end">
+			@if (id() !== 0) {
+				<a class="btn btn-outline-primary" [routerLink]="['/klanten', id()]">
+					<i class="bi bi-eye"></i> Details
+				</a>
+			}
+		</div>
 	</div>
 
 	<form (ngSubmit)="opslaan()" #f="ngForm">
@@ -59,11 +70,7 @@
 			</div>
 		</div>
 
-		@if (!metAdres()) {
-			<button type="button" class="btn btn-outline-secondary mb-3" (click)="voegAdresToe()">
-				<i class="bi bi-house-add"></i> Adres toevoegen
-			</button>
-		} @else {
+		@if (metAdres()) {
 			<fieldset class="border rounded p-3 mb-3">
 				<legend class="float-none w-auto px-2 fs-6">Adres</legend>
 				<div class="row mb-2">
@@ -149,6 +156,13 @@
 			</fieldset>
 		}
 
-		<button type="submit" class="btn btn-success" [disabled]="f.invalid">Opslaan</button>
+		<div class="d-flex justify-content-between align-items-center gap-2 flex-wrap">
+			<button type="submit" class="btn btn-success" [disabled]="f.invalid">Opslaan</button>
+			@if (!metAdres()) {
+				<button type="button" class="btn btn-outline-secondary" (click)="voegAdresToe()">
+					<i class="bi bi-house-add"></i> Adres toevoegen
+				</button>
+			}
+		</div>
 	</form>
 </div>

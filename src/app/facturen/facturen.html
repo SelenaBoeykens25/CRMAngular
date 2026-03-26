@@ -1,22 +1,42 @@
 <div class="container-fluid py-3">
-	<div class="d-flex justify-content-between align-items-center mb-3">
-		<h2>Facturen</h2>
-		<a routerLink="/facturen/aanpassen" class="btn btn-success">
-			<i class="bi bi-file-earmark-plus"></i> Nieuwe Factuur
-		</a>
+	<div class="row align-items-start g-3 mb-3">
+		<div class="col-12 col-lg-4">
+			<app-factuur-filter
+				[factuurLijst]="factuurLijst()"
+				[initialQueryParams]="queryParams()"
+				(filterChanged)="handleFilterChanged($event)">
+			</app-factuur-filter>
+		</div>
+		<div class="col-12 col-lg-4 text-center">
+			<h2 class="mb-0">Facturen</h2>
+		</div>
+		<div class="col-12 col-lg-4 d-flex justify-content-start justify-content-lg-end">
+			<div class="d-flex align-items-center gap-2 flex-wrap justify-content-start justify-content-lg-end">
+				@if (!isLoading()) {
+					<span id="factuurTotaal" class="me-1">
+    @if (factuurLijst().length == filterLijst().length)
+    {
+        <span class="me-1">{{ factuurLijst().length }}</span>
+    }
+    @else
+    {
+        <span class="me-1">{{ filterLijst().length }}/{{ factuurLijst().length }}</span>
+    }
+    <span>
+		{{ factuurLijst().length !== 1 ? 'Facturen ' : 'Factuur ' }}
+    </span>
+</span>
+				}
+			<a routerLink="/facturen/aanpassen" class="btn btn-success">
+				<i class="bi bi-file-earmark-plus"></i> Nieuwe Factuur
+			</a>
+			</div>
+		</div>
 	</div>
 
 	@if (isLoading()) {
 		<div class="text-center py-5"><div class="spinner-border" role="status"></div></div>
 	} @else {
-		<app-factuur-filter
-			[factuurLijst]="factuurLijst()"
-			[initialQueryParams]="queryParams()"
-			(filterChanged)="handleFilterChanged($event)">
-		</app-factuur-filter>
-
-		<p class="text-muted small">{{ filterLijst().length }} factuur/facturen gevonden</p>
-
 		@if (filterLijst().length === 0) {
 			<div class="alert alert-info">Geen facturen gevonden.</div>
 		} @else {

@@ -1,0 +1,15 @@
+.detail-card {
+	border: 1px solid #dee2e6;
+	box-shadow: 0 0.35rem 1rem rgba(15, 23, 42, 0.05);
+}
+
+.detail-card .card-header {
+	background: #f8f9fa;
+	border-bottom: 1px solid #dee2e6;
+}
+
+.table td:last-child,
+.table th:last-child {
+	width: 3rem;
+	text-align: center;
+}

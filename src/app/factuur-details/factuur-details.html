@@ -1,73 +1,124 @@
-@if (factuur()) {
-	<div class="container py-3">
-		<div class="d-flex justify-content-between align-items-center mb-3">
-			<h2>Factuur #{{ factuur()!.id }}</h2>
-			<div>
-				<button class="btn btn-outline-secondary me-2" (click)="print()">
-					<i class="bi bi-printer"></i> Afdrukken
-				</button>
-				<a [routerLink]="['/facturen/aanpassen', factuur()!.id]" class="btn btn-warning me-2">
-					<i class="bi bi-pencil"></i> Aanpassen
-				</a>
-				<a [routerLink]="['/facturen/deleteconfirm', factuur()!.id]" class="btn btn-danger me-2">
-					<i class="bi bi-trash"></i> Verwijderen
-				</a>
-				<button class="btn btn-secondary" (click)="gaTerug()">
-					<i class="bi bi-arrow-left"></i> Terug
-				</button>
+<div class="container py-3">
+	<div class="row align-items-center g-3 mb-3 no-print">
+		<div class="col-12 col-lg-4 d-flex justify-content-start">
+			<button class="btn btn-secondary" (click)="gaTerug()">
+				<i class="bi bi-arrow-left"></i> Terug
+			</button>
+		</div>
+		<div class="col-12 col-lg-4 text-center">
+			<h1 class="m-0">Factuur Details</h1>
+		</div>
+		<div class="col-12 col-lg-4 d-flex justify-content-start justify-content-lg-end">
+			<button class="btn btn-primary" (click)="print()">
+				<i class="bi bi-printer"></i> Afdrukken
+			</button>
+		</div>
+	</div>
+
+	@if (!factuur()) {
+		<div class="text-center mt-5">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Laden...</span>
 			</div>
 		</div>
-
-		<div class="row mb-3">
-			<div class="col-md-6">
-				<div class="card">
-					<div class="card-header"><strong>Factuurgegevens</strong></div>
-					<div class="card-body">
-						<p><strong>Factuurdatum:</strong> {{ factuur()!.factuurDatum }}</p>
-						<p><strong>Te betalen voor:</strong> {{ factuur()!.teBetalenVoor }}</p>
-						<p><strong>Totaalprijs:</strong> &euro;{{ factuur()!.prijs | number:'1.2-2' }}</p>
-						<span class="badge" [ngClass]="getStatusClass()">{{ factuur()!.betaalStatus }}</span>
+	} @else {
+		<div class="invoice-container">
+			<div class="invoice-header mb-4">
+				<div class="row g-4 align-items-start">
+					<div class="col-md-6">
+						<h2 class="mb-3">FACTUUR</h2>
+						<p><strong>Factuurnummer:</strong> {{ factuur()!.id }}</p>
+						<p><strong>Factuurdatum:</strong> {{ factuur()!.factuurDatum | date:'dd/MM/yyyy' }}</p>
+						<p><strong>Te betalen voor:</strong> {{ factuur()!.teBetalenVoor | date:'dd/MM/yyyy' }}</p>
+					</div>
+					<div class="col-md-6 text-md-end">
+						<h5 class="mb-3">Klantgegevens</h5>
+						@if (factuur()!.klant) {
+							<p class="mb-1"><strong>{{ factuur()!.klant!.voornaam }} {{ factuur()!.klant!.naam }}</strong></p>
+							@if (factuur()!.klant!.adres) {
+								<p class="mb-0">{{ factuur()!.klant!.adres!.straat }} {{ factuur()!.klant!.adres!.huisnummer }} {{ factuur()!.klant!.adres!.busnummer }}</p>
+								<p class="mb-0">{{ factuur()!.klant!.adres!.postcode }} {{ factuur()!.klant!.adres!.stad }}</p>
+								<p class="mb-0">{{ factuur()!.klant!.adres!.land?.landNaam }}</p>
+							}
+							<p class="mb-0 mt-2">{{ factuur()!.klant!.emailAdres }}</p>
+							<p class="mb-0">{{ factuur()!.klant!.telefoonNummer }}</p>
+						} @else {
+							<p class="mb-0 text-body-secondary">Geen klantgegevens beschikbaar.</p>
+						}
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<h4>Factuurlijnen</h4>
-		<table class="table table-bordered table-sm">
-			<thead class="table-light">
-				<tr>
-					<th>Omschrijving</th>
-					<th>Netto</th>
-					<th>BTW %</th>
-					<th>Bruto</th>
-				</tr>
-			</thead>
-			<tbody>
-				@for (lijn of factuur()!.factuurLijnen; track lijn.id) {
-					<tr>
-						<td>{{ lijn.omschrijving }}</td>
-						<td>&euro;{{ lijn.nettoPrijs | number:'1.2-2' }}</td>
-						<td>{{ lijn.btwPercentage }}%</td>
-						<td>&euro;{{ lijn.brutoPrijs | number:'1.2-2' }}</td>
-					</tr>
-				}
-			</tbody>
-			<tfoot>
-				<tr>
-					<th colspan="3" class="text-end">Netto totaal:</th>
-					<td>&euro;{{ nettoTotaal() | number:'1.2-2' }}</td>
-				</tr>
-				<tr>
-					<th colspan="3" class="text-end">BTW:</th>
-					<td>&euro;{{ totaalBtw() | number:'1.2-2' }}</td>
-				</tr>
-				<tr class="table-dark">
-					<th colspan="3" class="text-end">Bruto totaal:</th>
-					<td><strong>&euro;{{ factuur()!.prijs | number:'1.2-2' }}</strong></td>
-				</tr>
-			</tfoot>
-		</table>
-	</div>
-} @else {
-	<div class="text-center py-5"><div class="spinner-border" role="status"></div></div>
-}
+			@if (factuur()!.beschrijving) {
+				<div class="mb-4">
+					<h5>Beschrijving</h5>
+					<p class="mb-0">{{ factuur()!.beschrijving }}</p>
+				</div>
+			}
+
+			@if (factuur()!.factuurLijnen.length > 0) {
+				<div class="table-responsive mb-4">
+					<table class="table table-bordered align-middle">
+						<thead class="table-light">
+							<tr>
+								<th>Omschrijving</th>
+								<th class="text-end">Netto Prijs</th>
+								<th class="text-end">BTW %</th>
+								<th class="text-end">Bruto Prijs</th>
+							</tr>
+						</thead>
+						<tbody>
+							@for (lijn of factuur()!.factuurLijnen; track lijn.id) {
+								<tr>
+									<td>{{ lijn.omschrijving }}</td>
+									<td class="text-end">&euro; {{ lijn.nettoPrijs | number:'1.2-2' }}</td>
+									<td class="text-end">{{ lijn.btwPercentage | number:'1.0-0' }}%</td>
+									<td class="text-end">&euro; {{ lijn.brutoPrijs | number:'1.2-2' }}</td>
+								</tr>
+							}
+						</tbody>
+						<tfoot>
+							<tr class="table-light">
+								<td colspan="3" class="text-end"><strong>Totaal Netto:</strong></td>
+								<td class="text-end"><strong>&euro; {{ nettoTotaal() | number:'1.2-2' }}</strong></td>
+							</tr>
+							<tr class="table-light">
+								<td colspan="3" class="text-end"><strong>Totaal BTW:</strong></td>
+								<td class="text-end"><strong>&euro; {{ totaalBtw() | number:'1.2-2' }}</strong></td>
+							</tr>
+							<tr class="table-primary">
+								<td colspan="3" class="text-end"><strong>TOTAAL TE BETALEN:</strong></td>
+								<td class="text-end"><strong>&euro; {{ factuur()!.prijs | number:'1.2-2' }}</strong></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			} @else {
+				<div class="mb-4">
+					<div class="card total-card">
+						<div class="card-body">
+							<h5 class="card-title">Totaalbedrag</h5>
+							<h3 class="text-primary mb-0">&euro; {{ factuur()!.prijs | number:'1.2-2' }}</h3>
+						</div>
+					</div>
+				</div>
+			}
+
+			<div class="row mt-4 g-3 align-items-start">
+				<div class="col-md-6">
+					<div class="alert" [class]="getStatusAlertClass()" role="alert">
+						<strong>Betalingsstatus:</strong> {{ factuur()!.betaalStatus }}
+					</div>
+				</div>
+				<div class="col-md-6 no-print d-flex justify-content-start justify-content-md-end gap-2 flex-wrap">
+					<a [routerLink]="['/facturen/aanpassen', factuur()!.id]" class="btn btn-warning">
+						<i class="bi bi-pencil"></i> Aanpassen
+					</a>
+					<a [routerLink]="['/facturen/deleteconfirm', factuur()!.id]" class="btn btn-danger">
+						<i class="bi bi-trash"></i> Verwijderen
+					</a>
+				</div>
+			</div>
+		</div>
+	}
+</div>

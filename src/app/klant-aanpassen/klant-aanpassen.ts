@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { KlantenService } from '../Services/KlantenService';
 import { LandService } from '../Services/LandService';
 import { Klant, createKlant } from '../Models/Klant';
@@ -10,7 +10,7 @@ import { Land, createLand } from '../Models/Land';
 
 @Component({
   selector: 'app-klant-aanpassen',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './klant-aanpassen.html',
   styleUrl: './klant-aanpassen.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
