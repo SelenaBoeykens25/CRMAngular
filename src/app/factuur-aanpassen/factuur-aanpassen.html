@@ -17,6 +17,7 @@
 				<div class="position-relative">
 					<input type="text" class="form-control"
 						title="Klant"
+						autofocus
 						[value]="dropdownFilter() || selectedKlantNaam()"
 						(input)="onDropdownFilterChange($any($event.target).value)"
 						(focus)="showDropdownMenu()"

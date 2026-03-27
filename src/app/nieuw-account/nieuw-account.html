@@ -9,7 +9,7 @@
     <div class="mb-3">
       <label class="form-label">E-mailadres</label>
       <input type="email" class="form-control" name="email"
-        title="E-mailadres"
+        title="E-mailadres" autofocus
         [ngModel]="account().email"
         (ngModelChange)="account.update(a => ({...a, email: $event}))" required />
     </div>

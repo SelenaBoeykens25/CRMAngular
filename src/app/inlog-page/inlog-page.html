@@ -10,7 +10,7 @@
       <form (ngSubmit)="login()">
         <div class="mb-3">
           <label class="form-label" for="email">E-mailadres</label>
-          <input id="email" type="email" class="form-control"
+          <input id="email" type="email" class="form-control" autofocus
             [ngModel]="email()" (ngModelChange)="email.set($event)"
             name="email" required autocomplete="username" />
         </div>

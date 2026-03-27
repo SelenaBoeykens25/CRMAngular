@@ -37,6 +37,7 @@
 			<div class="col-md-6">
 				<label class="form-label">Voornaam</label>
 				<input type="text" class="form-control" name="voornaam" title="Voornaam"
+					autofocus
 					[ngModel]="klant().voornaam"
 					(ngModelChange)="klant.update(k => ({...k, voornaam: $event}))" required />
 			</div>
