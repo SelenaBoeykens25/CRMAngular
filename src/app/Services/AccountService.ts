@@ -14,7 +14,7 @@ export class AccountService {
 
   login(email: string, wachtwoord: string): Observable<GebruikersAccount | null> {
     return this.http
-      .get<GebruikersAccount & { securityLevel: unknown }>(`account/${email}/${wachtwoord}`)
+      .get<GebruikersAccount & { securityLevel: unknown }>(`account/${encodeURIComponent(email)}/${encodeURIComponent(wachtwoord)}`)
       .pipe(
         map(account => {
           const securityLevel = normalizeSecurityLevel(account.securityLevel);
