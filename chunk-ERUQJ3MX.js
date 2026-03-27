@@ -1,0 +1,1 @@
+import{a as r}from"./chunk-CRPJKKJO.js";function t(e={}){let a=new Date().toISOString().split("T")[0]??"";return r({id:0,voornaam:"",naam:"",aanspreking:"",telefoonNummer:"",emailAdres:"",geboorteDatum:a,adres:null,adresId:null,facturen:[]},e)}export{t as a};
