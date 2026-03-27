@@ -1,3 +1,8 @@
 .card {
   border: 1px solid #e7e9ee;
 }
+
+app-grafiek {
+  display: block;
+  width: 100%;
+}

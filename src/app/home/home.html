@@ -1,24 +1,10 @@
 <div class="container py-4">
   <h1 class="mb-4">Welkom bij CRM!</h1>
 
+  <!-- Grafiek on left, Betaal-status on right -->
   <div class="row align-items-start mb-4 mt-4 g-3">
-    <div class="col-md-4 mb-3">
-      <div class="card h-100">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title"><i class="bi bi-people"></i> Klanten</h5>
-          <p class="card-text">Beheer uw klanten.</p>
-          <a routerLink="/klanten" class="btn btn-primary mt-auto">Naar klanten</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <div class="card h-100">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title"><i class="bi bi-file-earmark-text"></i> Facturen</h5>
-          <p class="card-text">Beheer uw facturen.</p>
-          <a routerLink="/facturen" class="btn btn-primary mt-auto">Naar facturen</a>
-        </div>
-      </div>
+    <div class="col-md-8 mb-3">
+      <app-grafiek></app-grafiek>
     </div>
     <div class="col-md-4 mb-3">
       @if (factuurLijst().length > 0) {
@@ -31,6 +17,26 @@
           </div>
         </div>
       }
+    </div>
+  </div>
+
+  <!-- Links at bottom centered -->
+  <div class="row mt-3 mb-4">
+    <div class="col-12 d-flex justify-content-center gap-3">
+      <div class="card">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title"><i class="bi bi-people"></i> Klanten</h5>
+          <p class="card-text">Beheer uw klanten.</p>
+          <a routerLink="/klanten" class="btn btn-primary mt-auto">Naar klanten</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title"><i class="bi bi-file-earmark-text"></i> Facturen</h5>
+          <p class="card-text">Beheer uw facturen.</p>
+          <a routerLink="/facturen" class="btn btn-primary mt-auto">Naar facturen</a>
+        </div>
+      </div>
     </div>
   </div>
 

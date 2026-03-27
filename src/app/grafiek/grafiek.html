@@ -1,0 +1,19 @@
+<section class="grafiek-container">
+	<h2>Overzicht facturen en brutoprijs per maand</h2>
+
+	@if (loading()) {
+		<p class="status">Factuuroverzicht laden...</p>
+	} @else if (maandOverzicht().length === 0) {
+		<p class="status">Er zijn nog geen facturen om te tonen.</p>
+	} @else {
+		<div class="grafiek-wrapper">
+			<canvas 
+				baseChart
+				[data]="chartConfig().data"
+				[options]="chartConfig().options"
+				[type]="chartConfig().type"
+				class="grafiek-chart">
+			</canvas>
+		</div>
+	}
+</section>

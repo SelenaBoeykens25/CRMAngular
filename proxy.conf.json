@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "http://crmportfolioapi.runasp.net",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "logLevel": "info"
+  }
+}
