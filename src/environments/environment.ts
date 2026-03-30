@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'https://crmportfolioapi.runasp.net/',
+  apiUrl: 'http://crmportfolioapi.runasp.net/',
 };

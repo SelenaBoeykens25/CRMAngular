@@ -27,6 +27,48 @@
           Inloggen
         </button>
       </form>
+
+      <button
+        type="button"
+        class="btn btn-outline-secondary w-100 mt-3"
+        (click)="toggleAccountsTable()">
+        @if (showAccountsTable()) {
+          Verberg Accounts
+        } @else {
+          Toon Accounts
+        }
+      </button>
+
+      @if (showAccountsTable()) {
+        <div class="mt-3">
+          <table class="table table-sm table-striped">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Wachtwoord</th>
+                <th>Security Level</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>user@user.com</td>
+                <td>user123</td>
+                <td><span class="badge bg-info">User</span></td>
+              </tr>
+              <tr>
+                <td>admin@admin.com</td>
+                <td>admin123</td>
+                <td><span class="badge bg-warning">Admin</span></td>
+              </tr>
+              <tr>
+                <td>owner@owner.com</td>
+                <td>owner123</td>
+                <td><span class="badge bg-success">Owner</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      }
     </div>
   </div>
 </div>

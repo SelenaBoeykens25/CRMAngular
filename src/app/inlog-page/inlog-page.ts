@@ -20,6 +20,11 @@ export class InlogPage {
   protected readonly wachtwoord = signal('');
   protected readonly error = signal('');
   protected readonly isLoading = signal(false);
+  protected readonly showAccountsTable = signal(false);
+
+  protected toggleAccountsTable(): void {
+    this.showAccountsTable.update(value => !value);
+  }
 
   protected async login(): Promise<void> {
     this.error.set('');
